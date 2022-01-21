@@ -161,10 +161,20 @@ public class Main {
     public static void main(String[] args) throws Exception{
 
         ParkingLot parkingLot=new ParkingLot();
-        parkingLot.setCapacity(10);
-        while(true) {
-            int n = menu();
-            acutator(n,parkingLot);
+        System.out.println("Enter The Capacity of Parking Lot: ");
+        int capacity=in.nextInt();
+        System.out.println("Enter the Number of Cars Currently in the parking is: ");
+        int occupied=in.nextInt();
+        if(capacity<occupied)
+        {
+            System.out.println("Capacity must be Greater than or equal to occupied space");
+        }else {
+            parkingLot.setCapacity(capacity, occupied);
+           // parkingLot.setCapacity(10);
+            while (true) {
+                int n = menu();
+                acutator(n, parkingLot);
+            }
         }
 
     }
