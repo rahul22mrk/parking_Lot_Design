@@ -52,6 +52,16 @@ public class Main {
                 System.out.println("Enter the Color: ");
                 String clr=br.readLine().trim();
                 parkingLot.getRegistrationNoFromColor(clr);
+                break;
+            case 5:
+
+                System.out.println("Enter the Registration No: ");
+                String regNo=br.readLine().trim();
+                parkingLot. getSlotNoFromRegistrationNo(regNo);
+                break;
+
+
+
 
 
 

@@ -114,8 +114,28 @@ public class ParkingLot {
     //slot number in which a car with given registration Number is parked
     public void getSlotNoFromRegistrationNo(String regNo)
     {
+
         if(parkingSpace.size()==0)
         {
+              System.out.println("Parking Lot Not Created");
+        }
+        else
+        {
+            boolean check=false;
+            for(Car c:list)
+            {
+                String tempRegNo=c.getRegistrationNo();
+                if(tempRegNo.equals(regNo))
+                {
+                   System.out.println("Slot Number is: "+c.getSlot());
+                   check=true;
+                }
+
+            }
+            if(check==false)
+            {
+                System.out.println("Registration Number Not Found");
+            }
 
         }
     }
