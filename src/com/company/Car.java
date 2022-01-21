@@ -16,22 +16,17 @@ public class Car {
     @Override
     public String toString() {
         return  "registrationNo=" + registrationNo + '\'' +
-                ", color='" + color + '\'' +
-                ", slot=" + slot ;
+                ", color= " + color + '\'' +
+                ", slot= " + slot ;
     }
 
-    public Car insertCar() throws Exception
+
+    public Car insertCar(String color,String regNo) throws Exception
     {
+        this.setColor(color);
+        this.setRegistrationNo(regNo);
 
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Enter Car Color");
-        String str=br.readLine().trim();
-        this.setColor(str);
-        System.out.println("Enter Car registration");
-        str=br.readLine().trim();
-        this.setRegistrationNo(str);
-
-      return this;
+        return this;
     }
     public Car(String registrationNo, String color, int slot) {
         this.registrationNo = registrationNo;

@@ -11,7 +11,7 @@ public class ParkingLot {
 
 
 
-  //fetching the car details
+    //fetching the car details
     public ArrayList<Car> getAll()
     {
 
@@ -20,7 +20,7 @@ public class ParkingLot {
             list.add((Car)e.getValue());
         }
         //showCarList(list);
-       return list;
+        return list;
 
     }
 
@@ -58,7 +58,7 @@ public class ParkingLot {
             parkingSpace.put(car.getRegistrationNo(),car);
             return car;
         }
-           return null;
+        return null;
 
     }
 
@@ -82,9 +82,10 @@ public class ParkingLot {
 
         else {
             System.out.println("Registration No.\t|\tColor\t|\tSlot No.");
+            System.out.println("----------------------------------------------------------------------");
 
             for (Car e : list) {
-                System.out.println(e.getRegistrationNo() + "\t|\t" + e.getColor() + "\t|\t" + e.getSlot());
+                System.out.println(e.getRegistrationNo() + "   \t|\t" + e.getColor() + "\t\t|\t" + e.getSlot());
             }
         }
 
@@ -117,7 +118,7 @@ public class ParkingLot {
 
         if(parkingSpace.size()==0)
         {
-              System.out.println("Parking Lot Not Created");
+            System.out.println("Parking Lot Not Created");
         }
         else
         {
@@ -127,8 +128,8 @@ public class ParkingLot {
                 String tempRegNo=c.getRegistrationNo();
                 if(tempRegNo.equals(regNo))
                 {
-                   System.out.println("Slot Number is: "+c.getSlot());
-                   check=true;
+                    System.out.println("Slot Number is: "+c.getSlot());
+                    check=true;
                 }
 
             }
