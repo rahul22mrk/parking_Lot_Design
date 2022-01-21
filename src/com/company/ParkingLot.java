@@ -7,20 +7,19 @@ public class ParkingLot {
 
     private   HashMap<String ,Car> parkingSpace ;
     private   PriorityQueue<Integer>availableSlot;
-    private ArrayList<Car>list=new ArrayList();
+    private  ArrayList<Car>list=new ArrayList();
 
 
 
     //fetching the car details
-    public ArrayList<Car> getAll()
+    public void getAll()
     {
-
+         list.clear();
         for(Map.Entry e:parkingSpace.entrySet())
         {
             list.add((Car)e.getValue());
         }
-        //showCarList(list);
-        return list;
+
 
     }
 
@@ -56,6 +55,7 @@ public class ParkingLot {
             int ticket=availableSlot.poll();
             car.setSlot(ticket);
             parkingSpace.put(car.getRegistrationNo(),car);
+
             return car;
         }
         return null;
@@ -73,10 +73,37 @@ public class ParkingLot {
         return "No CAR Found";
     }
 
+   public String removeCarFromSlot(int slot)
+   {
+
+       if(parkingSpace.size()==0)
+           return "Parking Pot Not Created";
+       else {
+        int index=-1;
+           for (Car c : list) {
+               index++;
+               if (c.getSlot() == slot) {
+
+                  Car d = parkingSpace.remove(c.getRegistrationNo());
+                   availableSlot.offer(d.getSlot());
+                   list.remove(index);
+                   return "Slot " + d.getSlot() + "is Free " + "\nCar Details is Given Below:\n" + d.toString();
+
+
+               }
+           }
+
+
+       }
+       return "No CAR Found";
+
+   }
 
     //Show the list of car along with their details
-    public void showCarList(ArrayList<Car>list)
+    public void showCarList()
     {
+
+
         if(list.size()==0)
             System.out.println("Car Not Found");
 
@@ -160,11 +187,12 @@ public class ParkingLot {
                     System.out.println("Slot Number is : "+c.getSlot());
                     check=true;
                 }
-                if(check==false)
+            }
+            if(check==false)
                 {
                     System.out.println(color+" colour of car's slot not found");
                 }
-            }
+
         }
 
     }

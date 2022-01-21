@@ -9,6 +9,7 @@ import java.util.regex.*;
 public class Main {
 
     public static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+    public static Scanner in=new Scanner(System.in);
     public static int menu()
     {
 
@@ -23,8 +24,9 @@ public class Main {
         System.out.println("4.Show Registration Number of all cars of a Particular Colour");
         System.out.println("5.Slot number in which a car with a given registration number is parked");
         System.out.println("6.Slot number of all slots where a car of a particular colur is parked");
+        System.out.println("7.Removing Car using slot Number: ");
         System.out.println("--------------");
-        System.out.println("Enter your valid choice from 1 to 6 :");
+        System.out.println("Enter your valid choice from 1 to 7 :");
         option = in.nextInt();
 
         return option;
@@ -93,9 +95,9 @@ public class Main {
 
                 break;
             case 3:
-                ArrayList<Car> list=new ArrayList();
-                list=parkingLot.getAll();
-                parkingLot.showCarList(list);
+                //ArrayList<Car> list=new ArrayList();
+                parkingLot.getAll();
+                parkingLot.showCarList();
                 break;
             case 4:
 
@@ -137,6 +139,15 @@ public class Main {
                 }
 
                 break;
+
+            case 7:
+                System.out.println("Enter slot number for removing Car: ");
+                int slot=in.nextInt();
+                System.out.println(parkingLot.removeCarFromSlot(slot));
+
+
+                break;
+
 
             default:
                 System.out.println("Invalid Choice:\nExit...");
