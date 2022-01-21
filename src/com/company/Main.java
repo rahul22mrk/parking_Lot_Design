@@ -12,24 +12,26 @@ public class Main {
     {
 
 
-        int optionn = 0;
+        int option = 0;
           Scanner in=new Scanner(System.in);
-        System.out.println("Main Menu:");
+        System.out.println("\nMain Menu:");
         System.out.println("--------------");
         System.out.println("1.Get Slot");
         System.out.println("2.Remove Car");
         System.out.println("3.Show all Slots");
         System.out.println("4.Show Registration Number of all cars of a Particular Colour");
+        System.out.println("5.Slot number in which a car with a given registration number is parked");
+        System.out.println("6.Slot number of all slots where a car of a particular colur is parked");
         System.out.println("--------------");
-        System.out.println("Enter your choice:");
-       optionn = in.nextInt();
+        System.out.println("Enter your valid choice from 1 to 6 :");
+        option = in.nextInt();
 
-        return optionn;
+        return option;
 
     }
-    public static void acutator(int optionn,ParkingLot parkingLot) throws Exception
+    public static void acutator(int option,ParkingLot parkingLot) throws Exception
     {
-        switch (optionn) {
+        switch (option) {
 
             case 1:
                 Car c=new Car();
@@ -60,12 +62,16 @@ public class Main {
                 parkingLot. getSlotNoFromRegistrationNo(regNo);
                 break;
 
+            case 6:
 
-
-
-
+                System.out.println("Enter the Colour: ");
+                String color=br.readLine().trim();
+                parkingLot.getSlotNoFromColor(color);
+                break;
 
             default:
+                System.out.println("Invalid Choice:\nExit...");
+                System.exit(0);
         }// End of switch statement
 
 

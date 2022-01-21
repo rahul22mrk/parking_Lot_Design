@@ -140,7 +140,33 @@ public class ParkingLot {
         }
     }
 
+//Slot Numbers of all slots where a car of a particular colour is parked
 
+    public void getSlotNoFromColor(String color)
+    {
+        if(parkingSpace.size()==0)
+        {
+            System.out.println("Parking Lot Not Created");
+        }
+        else
+        {
+            boolean check=false;
+            for(Car c: list)
+            {
+                String tempColor=c.getColor();
+                if(color.equals(tempColor))
+                {
+                    System.out.println("Slot Number is : "+c.getSlot());
+                    check=true;
+                }
+                if(check==false)
+                {
+                    System.out.println(color+" colour of car's slot not found");
+                }
+            }
+        }
+
+    }
 
 
 
