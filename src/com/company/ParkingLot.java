@@ -4,23 +4,20 @@ import java.util.*;
 
 public class ParkingLot {
     private  int capacity;
-    private int occupiedSpace;
-    private int remainingSpace;
-    private   HashMap<String ,Car> parkingSpace ;
+   HashMap<String ,Car> parkingSpace ;
     private   PriorityQueue<Integer>availableSlot;
-    private  ArrayList<Car>list=new ArrayList();
 
 
 
     //fetching the car details
-    public void getAll()
+    public ArrayList<Car> getAll()
     {
-         list.clear();
+        ArrayList<Car>list=new ArrayList();
         for(Map.Entry e:parkingSpace.entrySet())
         {
             list.add((Car)e.getValue());
         }
-
+        return list;
 
     }
 
@@ -41,16 +38,6 @@ public class ParkingLot {
             availableSlot.offer(i);
         }
     }
-    public void setCapacity(int capacity,int occupied)
-    {
-        this.capacity=capacity;
-        this.occupiedSpace=occupied;
-        this.remainingSpace=capacity-occupied;
-        for(int i=occupied;i<=capacity;i++)
-        {
-            availableSlot.offer(i);
-        }
-    }
 
     private void setAvailableSlot(int space) {
         this.capacity = space;
@@ -62,14 +49,11 @@ public class ParkingLot {
 
     //get the space for parking of car
     public  Car  getParkingSpace(Car car) {
-        if(remainingSpace>=0)
+        if(availableSlot.size()>0)
         {
             int ticket=availableSlot.poll();
             car.setSlot(ticket);
             parkingSpace.put(car.getRegistrationNo(),car);
-            this.occupiedSpace=this.occupiedSpace+1;
-            this.remainingSpace=this.remainingSpace-1;
-
             return car;
         }
         else
@@ -78,33 +62,16 @@ public class ParkingLot {
 
     }
 
-    //Null PointerException in case of Random Number of Generation
-    public Car getRandomParkingSpace(Car car,int occupied) throws Exception
-    {
-                 int ticket=occupied;
-
-                car.setSlot(ticket);
-
-                       parkingSpace.put(car.getRegistrationNo(),car);
-
-
-
-        return car;
-    }
 
     //Remove Car from the parking lot
     public  String  removeCar( String registration ) {
-        if(capacity==0)
-            return "Parking Pot Not Created";
-        else if(occupiedSpace==0)
-            return "Slot is Not alloted";
+        if(this.capacity==0)
+            return "Space Not Available";
 
         if(parkingSpace.get(registration)!=null)
         {
             Car c=parkingSpace.remove(registration);
             availableSlot.offer(c.getSlot());
-            this.occupiedSpace=this.occupiedSpace-1;
-            this.remainingSpace=this.remainingSpace+1;
 
             return "Slot "+c.getSlot()+"is Free "+"\nCar Details is Given Below:\n"+c.toString();
         }
@@ -114,32 +81,29 @@ public class ParkingLot {
    public String removeCarFromSlot(int slot)
    {
 
-       if(capacity==0)
+       if(this.capacity==0)
            return "Parking Pot Not Created";
-       else if(occupiedSpace==0)
-           return "Slot is Not alloted";
        else {
-        int index=-1;
-           for (Car c : list) {
-               index++;
-               if (c.getSlot() == slot) {
+           boolean occupied=false;
 
-                  Car d = parkingSpace.remove(c.getRegistrationNo());
-                   availableSlot.offer(d.getSlot());
-                   this.occupiedSpace=this.occupiedSpace-1;
-                   this.remainingSpace=this.remainingSpace+1;
+           ArrayList<Car>list=getAll();
+        for(Car c:list)
+        {
+            if(c.getSlot()==slot)
+            {
+                occupied=true;
+                parkingSpace.remove(c.getRegistrationNo());
+                availableSlot.offer(c.getSlot());
+                return "Slot " + c.getSlot() + "is Free " + "\nCar Details is Given Below:\n" + c.toString();
 
-                   list.remove(index);
-                   return "Slot " + d.getSlot() + "is Free " + "\nCar Details is Given Below:\n" + d.toString();
+            }
+        }
 
 
-               }
-           }
+               return "No CAR is Parked ";
 
 
        }
-       return "No CAR Found";
-
    }
 
     //Show the list of car along with their details
@@ -149,80 +113,64 @@ public class ParkingLot {
         if(this.capacity==0)
         {
             System.out.println("Parking Lot Not Created");
-        }else if(this.occupiedSpace==0)
-        {
-            System.out.println("Ticket Not Genrated");
         }
-
-
         else {
+
             System.out.println("Registration No.\t|\tColor\t|\tSlot No.");
             System.out.println("----------------------------------------------------------------------");
 
-            for (Car e : list) {
-                System.out.println(e.getRegistrationNo() + "   \t|\t" + e.getColor() + "\t\t|\t" + e.getSlot());
+            for(Map.Entry e:parkingSpace.entrySet())
+            {
+               Car car= (Car)e.getValue();
+                System.out.println(car.getRegistrationNo() + "   \t|\t" + car.getColor() + "\t\t|\t" + car.getSlot());
             }
+
         }
 
     }
 
 
     //Registration Number of all cars of a Particular Color
-    public void getRegistrationNoFromColor(String clr)
+    public void getRegistrationNoFromColor(String color)
     {
         if(this.capacity==0)
         {
             System.out.println("Parking Lot Not Created");
-        }else if(this.occupiedSpace==0)
-        {
-            System.out.println("Ticket Not Genrated");
         }
      else {
             boolean check = false;
-            for (Car c : list) {
-                String tempColor = c.getColor();
-                if (tempColor.equals(clr)) {
+            ArrayList<Car>list=getAll();
+            for(Car c:list)
+            {
+                String tempColor=c.getColor();
+                if(tempColor.equals(color))
+                {
+                    check =true;
                     System.out.println(c.getRegistrationNo());
-                    check = true;
+
 
                 }
             }
+
             if (check == false) {
-                System.out.println(clr + " Color car is not found in our Parking lot");
+                System.out.println(color + " Color car is not found in our Parking lot");
             }
         }
     }
 
     //slot number in which a car with given registration Number is parked
-    public void getSlotNoFromRegistrationNo(String regNo)
+    public void getSlotNoFromRegistrationNo(String registrationNo)
     {
-
-        if(this.capacity==0)
-        {
-            System.out.println("Parking Lot Not Created");
-        }else if(this.occupiedSpace==0)
-        {
-            System.out.println("Ticket Not Genrated");
-        }
-        else
-        {
-            boolean check=false;
-            for(Car c:list)
-            {
-                String tempRegNo=c.getRegistrationNo();
-                if(tempRegNo.equals(regNo))
+                if(parkingSpace.get(registrationNo)!=null)
                 {
-                    System.out.println("Slot Number is: "+c.getSlot());
-                    check=true;
+                    System.out.println("Slot Number is: "+parkingSpace.get(registrationNo).getSlot());
                 }
+               else
+               {
+                System.out.println("No Car parked with this Registration Number");
+               }
 
-            }
-            if(check==false)
-            {
-                System.out.println("Registration Number Not Found");
-            }
 
-        }
     }
 
 //Slot Numbers of all slots where a car of a particular colour is parked
@@ -232,22 +180,24 @@ public class ParkingLot {
         if(this.capacity==0)
         {
             System.out.println("Parking Lot Not Created");
-        }else if(this.occupiedSpace==0)
-        {
-            System.out.println("Ticket Not Genrated");
         }
         else
         {
+            ArrayList<Car>list=getAll();
             boolean check=false;
-            for(Car c: list)
+            for(Car c:list)
             {
                 String tempColor=c.getColor();
-                if(color.equals(tempColor))
+                if(tempColor.equals(color))
                 {
-                    System.out.println("Slot Number is : "+c.getSlot());
-                    check=true;
+                    check =true;
+                    System.out.println(c.getSlot());
+
+
                 }
             }
+
+
             if(check==false)
                 {
                     System.out.println(color+" colour of car's slot not found");

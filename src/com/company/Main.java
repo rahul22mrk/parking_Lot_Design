@@ -13,8 +13,6 @@ public class Main {
 
     public static int menu()
     {
-
-
         int option = 0;
         Scanner in=new Scanner(System.in);
         System.out.println("\nMain Menu:");
@@ -29,7 +27,6 @@ public class Main {
         System.out.println("--------------");
         System.out.println("Enter your valid choice from 1 to 7 :");
         option = in.nextInt();
-
         return option;
 
     }
@@ -94,7 +91,6 @@ public class Main {
 
                 break;
             case 3:
-                //ArrayList<Car> list=new ArrayList();
                 parkingLot.getAll();
                 parkingLot.showCarList();
                 break;
@@ -162,21 +158,20 @@ public class Main {
         ParkingLot parkingLot=new ParkingLot();
         System.out.println("Enter The Capacity of Parking Lot: ");
         int capacity=in.nextInt();
+        parkingLot.setCapacity(capacity);
         System.out.println("Enter the Number of Cars Currently in the parking is: ");
         int occupied=in.nextInt();
         if(capacity<occupied)
         {
             System.out.println("Capacity must be Greater than or equal to occupied space");
         }else {
-                 Car c=new Car();
+
             for(int i=1;i<=occupied;i++)
             {
-                c=c.insertRandomCar();
-                System.out.println(parkingLot.getRandomParkingSpace(c,i));
+
+                System.out.println(parkingLot.getParkingSpace(new Car().insertRandomCar()));
             }
-            parkingLot.setCapacity(capacity, occupied);
         }
-           // parkingLot.setCapacity(10);
             while (true) {
                 int n = menu();
                 acutator(n, parkingLot);
