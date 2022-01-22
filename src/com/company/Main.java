@@ -10,6 +10,7 @@ public class Main {
 
     public static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
     public static Scanner in=new Scanner(System.in);
+
     public static int menu()
     {
 
@@ -52,12 +53,10 @@ public class Main {
     {
         boolean checkColor=false;
         boolean checkReg=false;
-
+        Car c=new Car();
         switch (option) {
 
             case 1:
-                Car c=new Car();
-
                 Scanner sc=new Scanner(System.in);
                 System.out.println("Enter Car registration Must Be Following Format : KA-01-HH-1234");
                 String regNo=sc.nextLine();
@@ -169,13 +168,20 @@ public class Main {
         {
             System.out.println("Capacity must be Greater than or equal to occupied space");
         }else {
+                 Car c=new Car();
+            for(int i=1;i<=occupied;i++)
+            {
+                c=c.insertRandomCar();
+                System.out.println(parkingLot.getRandomParkingSpace(c,i));
+            }
             parkingLot.setCapacity(capacity, occupied);
+        }
            // parkingLot.setCapacity(10);
             while (true) {
                 int n = menu();
                 acutator(n, parkingLot);
             }
-        }
+
 
     }
 }

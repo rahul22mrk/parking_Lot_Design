@@ -46,7 +46,7 @@ public class ParkingLot {
         this.capacity=capacity;
         this.occupiedSpace=occupied;
         this.remainingSpace=capacity-occupied;
-        for(int i=1;i<=capacity;i++)
+        for(int i=occupied;i<=capacity;i++)
         {
             availableSlot.offer(i);
         }
@@ -76,6 +76,20 @@ public class ParkingLot {
             System.out.println("Space is Not Available");
         return null;
 
+    }
+
+    //Null PointerException in case of Random Number of Generation
+    public Car getRandomParkingSpace(Car car,int occupied) throws Exception
+    {
+                 int ticket=occupied;
+
+                car.setSlot(ticket);
+
+                       parkingSpace.put(car.getRegistrationNo(),car);
+
+
+
+        return car;
     }
 
     //Remove Car from the parking lot
