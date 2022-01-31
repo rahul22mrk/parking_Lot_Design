@@ -1,8 +1,14 @@
-package com.company;
-import java.lang.*;
+package com.company;//A Java Package is a group of similar type of classes, interfaces,&sub-packages.
+//packages in java is two types- 1)User defined package 2)Built in Package
+import java.lang.*;//Import statement in java is helpful to take a class or all classes visible for program specified under a package
+//with the help of a single statement.
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) throws Exception{
+
+
+
         InputUser input=new InputUser();
         ParkingLot parkingLot=new ParkingLot();
         System.out.println("Enter The Capacity of Parking Lot: ");

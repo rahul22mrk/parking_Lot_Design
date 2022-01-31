@@ -1,7 +1,10 @@
 package com.company;
 
 import java.util.*;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
 public class ParkingLot {
     private  int capacity;
    HashMap<String ,Car> parkingSpace ;
@@ -48,11 +51,14 @@ public class ParkingLot {
     //for external users
 
     //get the space for parking of car
-    public  Car  getParkingSpace(Car car) {
+    public  Car  getParkingSpace(Car car)throws Exception {
+        carService obj=new carService();
+
         if(availableSlot.size()>0)
         {
             int ticket=availableSlot.poll();
             car.setSlot(ticket);
+            obj.insertCar(car);
             parkingSpace.put(car.getRegistrationNo(),car);
             return car;
         }
@@ -64,21 +70,23 @@ public class ParkingLot {
 
 
     //Remove Car from the parking lot
-    public  String  removeCar( String registration ) {
-        if(this.capacity==0)
-            return "Space Not Available";
+    public  String  removeCar( String registration )throws Exception {
+
+        carService carservice=new carService();
+       System.out.println( carservice.updateDatabase(registration));
+
 
         if(parkingSpace.get(registration)!=null)
         {
             Car c=parkingSpace.remove(registration);
             availableSlot.offer(c.getSlot());
 
-            return "Slot "+c.getSlot()+"is Free "+"\nCar Details is Given Below:\n"+c.toString();
+            return "Slot "+c.getSlot()+" is Free "+"\nCar Details is Given Below:\n"+c.toString();
         }
         return "No CAR Found";
     }
 
-   public String removeCarFromSlot(int slot)
+   public String removeCarFromSlot(int slot)throws Exception
    {
 
        if(this.capacity==0)
@@ -92,6 +100,8 @@ public class ParkingLot {
             if(c.getSlot()==slot)
             {
                 occupied=true;
+                carService carservice=new carService();
+                System.out.println( carservice.updateDatabase(c.getRegistrationNo()));
                 parkingSpace.remove(c.getRegistrationNo());
                 availableSlot.offer(c.getSlot());
                 return "Slot " + c.getSlot() + "is Free " + "\nCar Details is Given Below:\n" + c.toString();
@@ -106,8 +116,7 @@ public class ParkingLot {
        }
    }
 
-    //Show the list of car along with their details
-    public void showCarList()
+    public void showCarList() throws Exception
     {
 
         if(this.capacity==0)
@@ -115,15 +124,23 @@ public class ParkingLot {
             System.out.println("Parking Lot Not Created");
         }
         else {
-
-            System.out.println("Registration No.\t|\tColor\t|\tSlot No.");
             System.out.println("----------------------------------------------------------------------");
 
+            System.out.println("|\tS.No.\t|\tRegistration No.\t|\tColor\t\t|\tSlot No.\t|");
+            System.out.println("----------------------------------------------------------------------");
+             int sNo=1;
             for(Map.Entry e:parkingSpace.entrySet())
             {
-               Car car= (Car)e.getValue();
-                System.out.println(car.getRegistrationNo() + "   \t|\t" + car.getColor() + "\t\t|\t" + car.getSlot());
+                Car car= (Car)e.getValue();
+                if(car.getColor()=="Red")
+                {
+                    System.out.println("|\t"+sNo++ +"\t\t|\t "+car.getRegistrationNo() + "   \t|\t" + car.getColor() + "\t\t\t|\t" + car.getSlot()+"\t\t    |");
+
+                }else
+                System.out.println("|\t"+sNo++ +"\t\t|\t "+car.getRegistrationNo() + "   \t|\t" + car.getColor() + "\t\t|\t" + car.getSlot()+"\t\t    |");
             }
+            System.out.println("----------------------------------------------------------------------");
+
 
         }
 
@@ -137,9 +154,9 @@ public class ParkingLot {
         {
             System.out.println("Parking Lot Not Created");
         }
-     else {
+        else {
             boolean check = false;
-            ArrayList<Car>list=getAll();
+            ArrayList<Car> list=getAll();
             for(Car c:list)
             {
                 String tempColor=c.getColor();
@@ -161,14 +178,14 @@ public class ParkingLot {
     //slot number in which a car with given registration Number is parked
     public void getSlotNoFromRegistrationNo(String registrationNo)
     {
-                if(parkingSpace.get(registrationNo)!=null)
-                {
-                    System.out.println("Slot Number is: "+parkingSpace.get(registrationNo).getSlot());
-                }
-               else
-               {
-                System.out.println("No Car parked with this Registration Number");
-               }
+        if(parkingSpace.get(registrationNo)!=null)
+        {
+            System.out.println("Slot Number is: "+parkingSpace.get(registrationNo).getSlot());
+        }
+        else
+        {
+            System.out.println("No Car parked with this Registration Number");
+        }
 
 
     }
@@ -199,15 +216,13 @@ public class ParkingLot {
 
 
             if(check==false)
-                {
-                    System.out.println(color+" colour of car's slot not found");
-                }
+            {
+                System.out.println(color+" colour of car's slot not found");
+            }
 
         }
 
     }
-
-
 
 
 
